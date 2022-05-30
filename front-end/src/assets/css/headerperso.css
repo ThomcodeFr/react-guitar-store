@@ -1,0 +1,17 @@
+.headerStyle {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.logoStyle img {
+  width: 150px;
+  height: 170px;
+}
+
+.menuStyle li {
+  list-style-type: none;
+  margin: 0 10px 0 10px;
+  cursor: pointer;
+  text-transform: uppercase;
+}
