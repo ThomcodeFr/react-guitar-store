@@ -1,11 +1,11 @@
 import '../assets/css/headerperso.css'
-import logoBlue from '../assets/img/logo.png'
+import logo from '../assets/img/logo.png'
 
 function headerPerso() {
   return (
     <section className="headerStyle">
       <div className="logoStyle">
-        <img src={logoBlue} className="header-logo" alt="Logo Pop Harmonic" />
+        <img src={logo} className="header-logo" alt="Logo Pop Harmonic" />
       </div>
       <div className="menuStyle">
         <nav>
