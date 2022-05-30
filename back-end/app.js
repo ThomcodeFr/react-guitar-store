@@ -1,8 +1,22 @@
-const express = require('express') //import d'express
-const app = express() // création de l'app mais qui contient rien avec la méthode express
+const env = require('./.env')
+const express = require('express')
+const Thing = require('./models/Thing')
 
+const app = express()
+
+const mongoose = require('mongoose')
+mongoose
+  .connect(env.MONGODB_API_URL, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => console.log('Connexion à MongoDB réussie !'))
+  .catch(() => console.log('Connexion à MongoDB échouée !'))
+
+app.use(express.json())
+
+// ajout des middleswares
 app.use((req, res, next) => {
-  //middleware permettant de faire la route
   res.setHeader('Access-Control-Allow-Origin', '*')
   res.setHeader(
     'Access-Control-Allow-Headers',
@@ -15,70 +29,44 @@ app.use((req, res, next) => {
   next()
 })
 
-app.use('/api/products', (req, res, next) => {
-  // c'est la route d'accès à l'API avec l'extentions
-  const products = [
-    {
-      _id: '0000001',
-      title: 'Fender Stratocaster AP II',
-      description: "La série American Pro II, c'est la Fender d'aujourd'hui.",
-      imageUrl:
-        'https://www.musik-produktiv.fr/pic-010124394xxl/fender-american-professional-ii-stratocaster-hss-rw-mbl.jpg',
-      price: 4900, //centimes
-      userId: 'user01',
-    },
-    {
-      _id: '0000002',
-      title: 'Fender Telecaster AP II',
-      description:
-        "La série American Pro II, c'est la Fender d'aujourd'hui. Des instruments classiques avec des options de surclassement en business class !",
-      imageUrl:
-        'https://www.musik-produktiv.fr/pic-010124439xxl/fender-american-professional-ii-telecaster-mn-btb.jpg',
-      price: 2900,
-      userId: 'user02',
-    },
-    {
-      _id: '0000003',
-      title: 'Fender Jaguar',
-      description:
-        'La Fender Jaguar est un modèle de guitare électrique créé par la marque Fender en 1962',
-      imageUrl:
-        'https://images.musicstore.de/images/1280/fender-american-original-60s-jaguar-rw-daphne-blue_1_GIT0052274-000.jpg',
-      price: 1900,
-      userId: 'user03',
-    },
-    {
-      _id: '0000004',
-      title: 'Fender Jazz Bass',
-      description:
-        'Cette Jazz Bass est étonnante, des sons clairs et forts dans toute la gamme de fréquences.',
-      imageUrl:
-        'https://thumbs.static-thomann.de/thumb/padthumb600x600/pics/bdb/500416/15749726_800.jpg',
-      price: 1799,
-      userId: 'user04',
-    },
-    {
-      _id: '0000005',
-      title: 'Gibson Les Paul Standard',
-      description:
-        'La Les Paul Standards made by Gibson between 1958 and the end of 1960',
-      imageUrl:
-        'https://images.reverb.com/image/upload/s--0gUjSiDd--/f_auto,t_large/v1567715486/qu9fmrubhf6paiuvj9pc.jpg',
-      price: 7799,
-      userId: 'user05',
-    },
-    {
-      _id: '0000005',
-      title: 'Gibson Flying V',
-      description:
-        'Guitare électrique GIBSON modèle Flying V Introduite en 1958',
-      imageUrl:
-        'https://www.musik-produktiv.fr/pic-010140896xxl/gibson-custom-shop-1958-korina-flying-v.jpg',
-      price: 999,
-      userId: 'user05',
-    },
-  ]
-  res.status(200).json(products) // code 200 => Succes et renvoi le stuff
+app.post('/api/stuff', (req, res, next) => {
+  delete req.body._id
+
+  const thing = new Thing({
+    ...req.body,
+  })
+  thing
+    .save()
+    .then(() => res.status(201).json({ message: 'Objet enregistré !' }))
+    .catch((error) => res.status(400).json({ error }))
 })
 
-module.exports = app //export de la constante app
+// Récupère un seul objet par l'ID
+app.get('/api/stuff/:id', (req, res, next) => {
+  Thing.findOne({ _id: req.params.id })
+    .then((thing) => res.status(200).json(thing))
+    .catch((error) => res.status(404).json({ error }))
+})
+
+// Modifie l'objet
+app.put('/api/stuff/:id', (req, res, next) => {
+  Thing.updateOne({ _id: req.params.id }, { ...req.body, _id: req.params.id })
+    .then(() => res.status(200).json({ message: 'Objet modifié !' }))
+    .catch((error) => res.status(400).json({ error }))
+})
+
+// Supprimer l'objet
+app.delete('/api/stuff/:id', (req, res, next) => {
+  Thing.deleteOne({ _id: req.params.id })
+    .then(() => res.status(200).json({ message: 'Objet supprimé !' }))
+    .catch((error) => res.status(400).json({ error }))
+})
+
+// Récupère tout les objets
+app.use('/api/stuff', (req, res, next) => {
+  Thing.find()
+    .then((things) => res.status(200).json(things))
+    .catch((error) => res.status(400).json({ error }))
+})
+
+module.exports = app

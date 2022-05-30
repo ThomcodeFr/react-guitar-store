@@ -7,17 +7,8 @@ function MusicProducts() {
   const [stuff, setStuff] = useState([])
   const [cart, updateCart] = useState(0)
 
-  // function handleClick(e) {
-  //   e.preventDefault()
-  //   console.log('Le lien a été cliqué.')
-  // }
-
-  // Remarque : le tableau vide de dépendances [] indique
-  // que useEffect ne s’exécutera qu’une fois, un peu comme
-  // componentDidMount()
-
   useEffect(() => {
-    fetch('http://localhost:3001/api/products')
+    fetch('http://localhost:3001/api/stuff')
       .then((res) => res.json())
       .then(
         (result) => {
