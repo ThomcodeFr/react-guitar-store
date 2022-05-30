@@ -6,24 +6,9 @@ ul {
   display: flex;
 }
 
-.StylePanier {
-  flex-direction: column;
-}
-
-.ListStyle {
+.productTable{
   display: flex;
   flex-direction: column;
-}
-
-.ListStyle li {
   list-style-type: none;
-
-}
-
-.objectListDesign {
-  display: flex;
-}
-
-.objectListDesign li {
-  list-style-type: none;
+  padding-bottom: 10px;
 }

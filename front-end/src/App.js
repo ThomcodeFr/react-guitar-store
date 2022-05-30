@@ -12,9 +12,11 @@ function App() {
         <section className="bannerPicture">
           <BannerPicture />
         </section>
-        <section className='productList'>
+        <section className="content">
           <h2> Les nouveautés Rock !</h2>
-          <ProductsApi />
+          <div className="ProductList">
+            <ProductsApi />
+          </div>
         </section>
       </main>
       <footer>

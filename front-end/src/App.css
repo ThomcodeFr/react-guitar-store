@@ -12,17 +12,9 @@
   min-height: 100vh;
 }
 
-.productList {
+.content {
   text-align: center;
 }
-
-.productTable{
-  display: flex;
-  flex-direction: column;
-  list-style-type: none;
-  padding-bottom: 10px;
-}
-
 
 .footer {
   text-align: center;
