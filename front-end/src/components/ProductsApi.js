@@ -17,7 +17,7 @@ function MusicProducts() {
   // componentDidMount()
 
   useEffect(() => {
-    fetch('http://localhost:3001/api/stuff/')
+    fetch('http://localhost:3001/api/products')
       .then((res) => res.json())
       .then(
         (result) => {
@@ -38,13 +38,17 @@ function MusicProducts() {
     return <div>Chargement...</div>
   } else {
     return (
-      <ul className="pageTableauComplet">
+      <ul className="productTableSection">
         {stuff.map(({ title, description, price, imageUrl }) => (
-          <ul className="tableauComplet">
-            <img src={imageUrl} className="imageGuitare" alt="Image d'une guitare" />
+          <ul className="productTable">
+            <img
+              src={imageUrl}
+              className="imageGuitare"
+              alt="Image d'une guitare"
+            />
             <li>{title}</li>
-            <button onclick={description}>Activer les lasers</button>
-            <li>{price}</li>
+            <button onclick={description}>Description</button>
+            <li>{price} €</li>
             <button onClick={() => updateCart(price + 1)}>
               Ajouter au panier 🛒
             </button>

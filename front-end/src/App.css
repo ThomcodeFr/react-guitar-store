@@ -7,15 +7,22 @@
 }
 
 .appContent {
-  background-color: #868686;
+  background-color: #ffffff;
   min-width: 100vh;
   min-height: 100vh;
-  color: white;
 }
 
 .productList {
   text-align: center;
 }
+
+.productTable{
+  display: flex;
+  flex-direction: column;
+  list-style-type: none;
+  padding-bottom: 10px;
+}
+
 
 .footer {
   text-align: center;

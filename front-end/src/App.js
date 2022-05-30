@@ -13,7 +13,7 @@ function App() {
           <BannerPicture />
         </section>
         <section className='productList'>
-          <h2> Liste des produits</h2>
+          <h2> Les nouveautés Rock !</h2>
           <ProductsApi />
         </section>
       </main>
